@@ -17,15 +17,12 @@
 //     password:undefined,
 //  })
 
-
 //  const {dispatch} = useContext(AuthContext)
 //  const navigate = useNavigate()
-
 
 //    const handleChange = e => {
 //      setCredentials(prev=>({...prev, [e.target.id]:e.target.value}))
 //  };
-
 
 //  const handleClick = async e => {
 //    e.preventDefault();
@@ -33,7 +30,7 @@
 //    dispatch({type: 'LOGIN_START'})
 
 //    try {
-    
+
 //      const res = await fetch(`${BASE_URL}/auth/login`, {
 //        method: 'post',
 //        headers:{
@@ -88,11 +85,11 @@
 //      onChange={() => setIsAdmin(!isAdmin)}
 //    />
 //  </label>
-//                    </FormGroup> 
+//                    </FormGroup>
 //          <Button className='btn secondary__btn auth__btn' type='submit'>Login</Button>
 //        </Form>
 //        <p>Don't have an acoount ? <Link to='/register'>Create</Link></p>
-      
+
 //        </div>
 //          </div>
 
@@ -103,28 +100,25 @@
 //      )
 //  }
 
-
 //  export default Login
 
+import React, { useState, useContext } from "react";
+import { Container, Row, Col, Form, FormGroup, Button } from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/login.css";
 
+import loginImg from "../assets/images/login.png";
+import userIcon from "../assets/images/user.png";
 
-import React, { useState, useContext } from 'react'
-import {Container, Row, Col, Form, FormGroup, Button, Input } from 'reactstrap';
-import { Link, useNavigate } from 'react-router-dom'
-import '../styles/login.css'
-
-import loginImg from '../assets/images/login.png'
-import userIcon from '../assets/images/user.png'
-
-import { AuthContext } from './../context/AuthContext.js'
-import { BASE_URL } from './../utils/config.js'
+import { AuthContext } from "./../context/AuthContext.js";
+import { BASE_URL } from "./../utils/config.js";
 
 const Login = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const { dispatch } = useContext(AuthContext);
@@ -142,15 +136,15 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    dispatch({ type: 'LOGIN_START' });
+    dispatch({ type: "LOGIN_START" });
 
     try {
       const res = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'post',
+        method: "post",
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({ ...credentials, isAdmin }),
       });
 
@@ -159,70 +153,76 @@ const Login = () => {
 
       console.log(result.data);
 
-      dispatch({ type: 'LOGIN_SUCCESS', payload: result.data });
-      navigate('/');
+      dispatch({ type: "LOGIN_SUCCESS", payload: result.data });
+      navigate("/");
     } catch (err) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: err.message });
+      dispatch({ type: "LOGIN_FAILURE", payload: err.message });
     }
   };
 
   return (
     <section>
-  <Container>
-    <Row>
-      <Col lg='8' className='m-auto'>
-        <div className='login__container d-flex justify-content-between'>
-          <div className='login__img'>
-            <img src={loginImg} alt=''/>
-          </div>
+      <Container>
+        <Row>
+          <Col lg="8" className="m-auto">
+            <div className="login__container d-flex justify-content-between">
+              <div className="login__img">
+                <img src={loginImg} alt="" />
+              </div>
 
-      <div className='login__form'>
-       <div className='user'>
-        <img src={userIcon} alt=''/>
-       </div>
-      <h2>Login</h2>
-      <Form onSubmit={handleClick}>
-        <FormGroup>
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            id="email"
-            value={credentials.email}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            id="password"
-            value={credentials.password}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup check className="admin">
-          <label>
-            Admin Login
-            <input  type="checkbox" checked={isAdmin} onChange={handleCheckboxChange}
-            />
-          </label>
-        </FormGroup>
-        <Button className="btn secondary__btn auth__btn" type="submit">
-          Login
-        </Button>
-      </Form>
-             <p>Don't have an acoount ? <Link to='/register'>Create</Link></p>
-       </div>
-         </div>
+              <div className="login__form">
+                <div className="user">
+                  <img src={userIcon} alt="" />
+                </div>
+                <h2>Login</h2>
+                <Form onSubmit={handleClick}>
+                  <FormGroup>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      required
+                      id="email"
+                      value={credentials.email}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      required
+                      id="password"
+                      value={credentials.password}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
+                  <FormGroup check className="admin">
+                    <label>
+                      Admin Login
+                      <input
+                        type="checkbox"
+                        checked={isAdmin}
+                        onChange={handleCheckboxChange}
+                      />
+                    </label>
+                  </FormGroup>
+                  <Button
+                    className="btn secondary__btn auth__btn"
+                    type="submit"
+                  >
+                    Login
+                  </Button>
+                </Form>
+                <p>
+                  Don't have an acoount ? <Link to="/register">Create</Link>
+                </p>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  );
+};
 
-       </Col>
-     </Row>
-   </Container>
- </section>
-     )
- }
-
-
- export default Login
+export default Login;
